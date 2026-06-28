@@ -6,6 +6,23 @@ Cross-team communication, meeting management, sprint planning, stakeholder updat
 
 Check for `[Language: 中文]` or `[Language: English]` in context. Default to 中文 if user writes in Chinese.
 
+## Context Injection
+
+If `context.json` is loaded, inject these fields into every output in this file:
+
+| Placeholder | Context Path | Fallback |
+|-------------|-------------|----------|
+| `{Product Name}` | `company.product_name` | "产品" |
+| `{team structure}` | `team.structure` | (omit) |
+| `{team roles}` | `team.roles` | (omit) |
+| `{sprint cadence}` | `team.sprint_cadence` | "2-week" |
+| `{comms tool}` | `tools.communication` | "Slack" |
+| `{task tool}` | `tools.task_management` | "Jira" |
+| `{doc tool}` | `tools.documentation` | "Notion" |
+| `{cicd tool}` | `tools.cicd` | (omit) |
+
+**Rule**: Never fabricate context. If a field is null/absent, use the fallback. If the fallback is "(omit)", remove that line/section entirely.
+
 ---
 
 ## 1. Cross-Team Communication / 跨部门沟通

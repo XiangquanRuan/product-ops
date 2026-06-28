@@ -6,6 +6,21 @@ Systematic competitor tracking, feature benchmarking, and market signal monitori
 
 Check for `[Language: 中文]` or `[Language: English]` in context. Default to 中文 if user writes in Chinese.
 
+## Context Injection
+
+If `context.json` is loaded, inject these fields into every output in this file:
+
+| Placeholder | Context Path | Fallback |
+|-------------|-------------|----------|
+| `{Product Name}` | `company.product_name` | "我们" |
+| `{Direct Competitors}` | `competitors.direct[*].name` | (ask user) |
+| `{Indirect Competitors}` | `competitors.indirect[*].name` | (omit) |
+| `{Our Differentiation}` | `competitors.our_differentiation` | (omit) |
+| `{Industry}` | `company.industry` | (omit) |
+| `{Competitor details}` | `competitors.direct[*].strength/weakness` | (omit) |
+
+**Rule**: Never fabricate context. If a field is null/absent, use the fallback. If the fallback is "(ask user)", ask the user for competitor names before proceeding.
+
 ---
 
 ## 1. Competitor Tracking Framework / 竞品追踪框架

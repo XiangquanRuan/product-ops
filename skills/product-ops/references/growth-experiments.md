@@ -6,6 +6,24 @@ A/B testing, growth strategies, and experimentation workflows for product operat
 
 Check for `[Language: 中文]` or `[Language: English]` in context. Default to 中文 if user writes in Chinese.
 
+## Context Injection
+
+If `context.json` is loaded, inject these fields into every output in this file:
+
+| Placeholder | Context Path | Fallback |
+|-------------|-------------|----------|
+| `{Product Name}` | `company.product_name` | "产品" |
+| `{North Star}` | `product.north_star_metric` | "核心指标" |
+| `{Conversion label}` | `metrics.definitions.conversion.name` | "核心转化率" |
+| `{active experiments}` | `experiments.active_count` | (omit) |
+| `{typical duration}` | `experiments.typical_duration_days` | (omit) |
+| `{significance level}` | `experiments.significance_level` | "95%" |
+| `{experiment tool}` | `experiments.primary_tool` | (omit) |
+| `{historical learnings}` | `experiments.historical_learnings` | (omit) |
+| `{analytics tool}` | `metrics.data_sources.analytics_tool` | (omit) |
+
+**Rule**: Never fabricate context. If a field is null/absent, use the fallback. If the fallback is "(omit)", remove that line/section entirely.
+
 ---
 
 ## 1. A/B Test Design / A/B测试设计

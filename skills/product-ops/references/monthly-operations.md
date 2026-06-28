@@ -6,6 +6,24 @@ Monthly business review (月报), OKR tracking, feature adoption review, and nex
 
 Check for `[Language: 中文]` or `[Language: English]` in context. Default to 中文 if user writes in Chinese.
 
+## Context Injection
+
+If `context.json` is loaded, inject these fields into every output in this file:
+
+| Placeholder | Context Path | Fallback |
+|-------------|-------------|----------|
+| `{Product Name}` | `company.product_name` | "产品" |
+| `{Company}` | `company.name` | (omit if null) |
+| `{DAU/MAU label}` | `metrics.definitions.dau.name` | "DAU/MAU" |
+| `{Revenue label}` | `metrics.definitions.revenue.name` | "收入" |
+| `{Retention label}` | `metrics.definitions.retention_d7.name` | "留存率" |
+| `{analytics tool}` | `metrics.data_sources.analytics_tool` | (omit) |
+| `{competitor names}` | `competitors.direct[*].name` | (omit) |
+| `{OKR tool}` | `tools.documentation` | (omit) |
+| `{target users}` | `product.target_users_icp` | (omit) |
+
+**Rule**: Never fabricate context. If a field is null/absent, use the fallback. If the fallback is "(omit)", remove that line/section entirely.
+
 ---
 
 ## 1. Monthly Business Review / 月度经营分析 (月报)

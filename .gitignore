@@ -20,6 +20,11 @@ venv/
 # Node
 node_modules/
 
+# User data (NEVER commit — contains company context)
+.product-ops/
+*.context.json
+context.json
+
 # Temporary files
 *.tmp
 *.log

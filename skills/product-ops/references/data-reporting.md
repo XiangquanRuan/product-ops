@@ -6,6 +6,25 @@ Data analysis and reporting workflows for product operations: KPI dashboards, fu
 
 Check for `[Language: 中文]` or `[Language: English]` in context. Default to 中文 if user writes in Chinese.
 
+## Context Injection
+
+If `context.json` is loaded, inject these fields into every output in this file:
+
+| Placeholder | Context Path | Fallback |
+|-------------|-------------|----------|
+| `{Product Name}` | `company.product_name` | "产品" |
+| `{North Star}` | `product.north_star_metric` | "核心指标" |
+| `{DAU label}` | `metrics.definitions.dau.name` | "DAU" |
+| `{Revenue label}` | `metrics.definitions.revenue.name` | "收入" |
+| `{Retention label}` | `metrics.definitions.retention_d7.name` | "D7 留存率" |
+| `{Conversion label}` | `metrics.definitions.conversion.name` | "核心转化率" |
+| `{analytics tool}` | `metrics.data_sources.analytics_tool` | (omit) |
+| `{dashboard url}` | `metrics.data_sources.dashboard_url` | (omit) |
+| `{sheets url}` | `metrics.data_sources.sheets_url` | (omit) |
+| `{targets}` | `metrics.targets.*` | (omit) |
+
+**Rule**: Never fabricate context. If a field is null/absent, use the fallback. If the fallback is "(omit)", remove that line/section entirely.
+
 ---
 
 ## 1. KPI Dashboard Design / KPI看板设计

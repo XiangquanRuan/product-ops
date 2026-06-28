@@ -6,6 +6,23 @@ Content creation, release notes, push notifications, help center management, and
 
 Check for `[Language: 中文]` or `[Language: English]` in context. Default to 中文 if user writes in Chinese.
 
+## Context Injection
+
+If `context.json` is loaded, inject these fields into every output in this file:
+
+| Placeholder | Context Path | Fallback |
+|-------------|-------------|----------|
+| `{Product Name}` | `company.product_name` | "产品" |
+| `{brand tone}` | `brand.tone` | "professional" |
+| `{brand voice (zh)}` | `brand.voice_zh` | (omit) |
+| `{brand voice (en)}` | `brand.voice_en` | (omit) |
+| `{primary channels}` | `brand.primary_channels` | "公众号/邮件" |
+| `{hashtags}` | `brand.hashtags` | (omit) |
+| `{doc tool}` | `tools.documentation` | (omit) |
+| `{comms tool}` | `tools.communication` | (omit) |
+
+**Rule**: Never fabricate context. If a field is null/absent, use the fallback. If the fallback is "(omit)", remove that line/section entirely.
+
 ---
 
 ## 1. Content Calendar / 内容日历

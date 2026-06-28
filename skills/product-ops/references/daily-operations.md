@@ -6,6 +6,24 @@ Daily product operations workflows: morning check-in, standup, and end-of-day su
 
 Check for `[Language: 中文]` or `[Language: English]` in context. Default to 中文 if user writes in Chinese. All output must be in the chosen language.
 
+## Context Injection
+
+If `context.json` is loaded, inject these fields into every output in this file:
+
+| Placeholder | Context Path | Fallback |
+|-------------|-------------|----------|
+| `{Product Name}` | `company.product_name` | "产品" |
+| `{DAU label}` | `metrics.definitions.dau.name` | "DAU" |
+| `{Revenue label}` | `metrics.definitions.revenue.name` | "收入" |
+| `{Conversion label}` | `metrics.definitions.conversion.name` | "核心转化率" |
+| `{analytics tool}` | `metrics.data_sources.analytics_tool` | (omit) |
+| `{standup time}` | `team.standup_time` | (omit) |
+| `{comms tool}` | `tools.communication` | "Slack" |
+| `{task tool}` | `tools.task_management` | (omit) |
+| `{sprint cadence}` | `team.sprint_cadence` | (omit) |
+
+**Rule**: Never fabricate context. If a field is null/absent, use the fallback. If the fallback is "(omit)", remove that line/section entirely.
+
 ---
 
 ## 1. Morning Check-in / 晨间检查 (10 min)

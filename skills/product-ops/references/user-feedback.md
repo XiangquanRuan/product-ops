@@ -6,6 +6,21 @@ Systematic user feedback collection, categorization, prioritization, and action 
 
 Check for `[Language: 中文]` or `[Language: English]` in context. Default to 中文 if user writes in Chinese.
 
+## Context Injection
+
+If `context.json` is loaded, inject these fields into every output in this file:
+
+| Placeholder | Context Path | Fallback |
+|-------------|-------------|----------|
+| `{Product Name}` | `company.product_name` | "产品" |
+| `{target users}` | `product.target_users_icp` | (omit) |
+| `{comms tool}` | `tools.communication` | "Slack" |
+| `{task tool}` | `tools.task_management` | (omit) |
+| `{doc tool}` | `tools.documentation` | (omit) |
+| `{feedback sources}` | (infer from tools + channels) | (omit) |
+
+**Rule**: Never fabricate context. If a field is null/absent, use the fallback. If the fallback is "(omit)", remove that line/section entirely.
+
 ---
 
 ## 1. Feedback Collection Framework / 反馈收集框架

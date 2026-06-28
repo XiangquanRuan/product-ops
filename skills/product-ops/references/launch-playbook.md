@@ -6,6 +6,26 @@ Complete product launch operations playbook: pre-launch checklist, launch day co
 
 Check for `[Language: 中文]` or `[Language: English]` in context. Default to 中文 if user writes in Chinese.
 
+## Context Injection
+
+If `context.json` is loaded, inject these fields into every output in this file:
+
+| Placeholder | Context Path | Fallback |
+|-------------|-------------|----------|
+| `{Product Name}` | `company.product_name` | "产品" |
+| `{platforms}` | `product.platforms` | "Web" |
+| `{release cadence}` | `releases.typical_cadence` | "weekly" |
+| `{feature flag tool}` | `releases.feature_flag_tool` | (omit) |
+| `{rollout strategy}` | `releases.rollout_strategy` | (omit) |
+| `{rollback procedure}` | `releases.rollback_procedure` | (omit) |
+| `{comms tool}` | `tools.communication` | "Slack" |
+| `{monitoring tool}` | `tools.monitoring` | (omit) |
+| `{cicd tool}` | `tools.cicd` | (omit) |
+| `{eng lead}` | `team.key_contacts.engineering_lead` | (omit) |
+| `{pm}` | `team.key_contacts.pm` | (omit) |
+
+**Rule**: Never fabricate context. If a field is null/absent, use the fallback. If the fallback is "(omit)", remove that line/section entirely.
+
 ---
 
 ## Phase 0: Launch Classification / 发布分级

@@ -114,7 +114,8 @@ product-ops/
 ├── skills/
 │   └── product-ops/
 │       ├── SKILL.md             # Main router (entry point)
-│       ├── references/          # 11 domain workflow files
+│       ├── references/          # 12 domain workflow files
+│       │   ├── onboarding.md          # One-time context setup wizard (NEW)
 │       │   ├── daily-operations.md
 │       │   ├── weekly-operations.md
 │       │   ├── monthly-operations.md
@@ -126,7 +127,8 @@ product-ops/
 │       │   ├── project-coordination.md
 │       │   ├── launch-playbook.md
 │       │   └── skill-routing.md
-│       └── assets/              # 6 fill-in templates
+│       └── assets/              # 7 fill-in templates
+│           ├── context-schema.md       # Context JSON schema reference (NEW)
 │           ├── daily-standup-template.md
 │           ├── weekly-report-template.md
 │           ├── monthly-report-template.md
@@ -136,6 +138,28 @@ product-ops/
 ├── README.md
 └── LICENSE
 ```
+
+---
+
+## Privacy & Security / 隐私与安全
+
+Your company data stays with you — always:
+
+| Concern | Answer |
+|---------|--------|
+| **Where is my data stored?** | Local file: `~/.product-ops/projects/{slug}/context.json` |
+| **Is it uploaded anywhere?** | No. Never automatically transmitted. |
+| **Is it in the GitHub repo?** | No. Excluded via `.gitignore`. |
+| **What about the API?** | Data loaded into conversations goes through the Claude API, same as anything you type. Follows [Anthropic's data usage policy](https://www.anthropic.com/legal). |
+| **Can I see what's stored?** | Say 「查看我的配置」/ "show my context" |
+| **Can I delete it?** | Say 「删除配置」/ "delete context" — removes everything |
+| **What should I NOT store?** | Passwords, API keys, exact revenue numbers, user PII. Provide these in conversation, not in config. |
+| **Industry compliance?** | Built for general use. For HIPAA/SOC2/PCI, evaluate with your security team. |
+
+**Design principles**:
+- 🟢 **Tier 1** (recommended): Product name, industry, competitor names — low sensitivity
+- 🟡 **Tier 2** (optional): Metric definitions, team structure, brand tone
+- 🔴 **Tier 3** (per-session only): Specific revenue, DAU numbers, user data — never stored
 
 ---
 
