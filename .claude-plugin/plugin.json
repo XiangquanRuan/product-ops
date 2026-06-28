@@ -1,0 +1,22 @@
+{
+  "name": "product-ops",
+  "version": "0.1.0",
+  "description": "Product Operations (产品运营) unified hub — daily ops, data reporting, user feedback, content ops, growth experiments, competitive intel, and cross-team coordination. Bilingual 中文/English.",
+  "author": {
+    "name": "Product Ops Community",
+    "url": "https://github.com/settings/profile"
+  },
+  "repository": "https://github.com/settings/profile/product-ops",
+  "license": "MIT",
+  "keywords": [
+    "product-operations",
+    "产品运营",
+    "daily-operations",
+    "weekly-report",
+    "data-reporting",
+    "user-feedback",
+    "growth-experiments",
+    "competitive-intelligence",
+    "bilingual"
+  ]
+}
