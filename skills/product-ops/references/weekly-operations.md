@@ -35,9 +35,25 @@ If `context.json` is loaded, inject these fields into every output in this file:
 
 The weekly report answers: **What happened this week? What did we learn? What's next?**
 
-### Data to Collect (before writing)
+### Step A: Fetch Data
 
-Ask the user for data or help them pull it:
+**Do NOT ask the user for data one by one.** Instead, follow the connector decision flow from `data-connectors.md`:
+
+1. Read context.json → `metrics.data_sources`
+2. Build a DataRequest for this workflow (required metrics: `dau, new_users, retention_d7, conversion, revenue`)
+3. Try the connector path:
+   - **`lark-sheets`** → Call `/lark-sheets` to read from `metrics.data_sources.sheets_url`. Map columns to metric keys.
+   - **CSV provided** → Call `/pandas-data-analysis` to process
+   - **No connector available** → Present a compact fill-in form (one message, all metrics):
+     ```
+     📊 本周数据（直接粘贴或说「跳过」）：
+     DAU: __ | 新增: __ | D7留存: __% | 转化率: __% | 收入: __
+     (上周对比自动计算，或同时提供上周数据)
+     ```
+4. If any metric fails → mark as `not_available` in DataResponse, proceed with what we have
+5. Run anomaly detection on fetched data (any metric deviating >10% vs previous period)
+
+### Step B: Generate Report
 
 **Product Metrics** (本周数据):
 - DAU/MAU — trend vs last week
@@ -56,6 +72,11 @@ Ask the user for data or help them pull it:
 - Shipments — features released, hotfixes deployed
 
 ### Report Structure
+
+**Always include**:
+- Data source attribution: `📊 数据来源: {source_detail} | 获取时间: {fetched_at}`
+- Anomaly flags: metrics deviating >10% from previous period are marked ⚠️ with auto-generated note
+- Unavailable metrics: clearly marked as「未获取」with reason
 
 Produce a structured weekly report:
 

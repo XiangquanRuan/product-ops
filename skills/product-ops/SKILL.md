@@ -54,6 +54,7 @@ Parse the user's request. Match keywords to the appropriate reference file or ex
 ### Domain Workflows
 | User says | Route to |
 |-----------|----------|
+| 数据源/数据连接/自动拉数据/connector/data source | `references/data-connectors.md` |
 | 数据/报表/KPI/看板/dashboard/metrics/funnel/漏斗/cohort/留存 | `references/data-reporting.md` |
 | 用户反馈/投诉/评价/建议/user feedback/review/NPS | `references/user-feedback.md` |
 | 发文/公告/推送/通知/内容/文案/release notes/content | `references/content-operations.md` |
@@ -93,15 +94,43 @@ Parse the user's request. Match keywords to the appropriate reference file or ex
 | Python data analysis | `/pandas-data-analysis` | Pandas processing |
 | Chart/visualization | `/chart-visualization` or `/plotly` | Data visualization |
 
+## Step 1.5: Data Fetching
+
+For workflows that need operational data (daily operations, weekly report, monthly review, data analysis, experiment review), fetch data BEFORE generating output. See `references/data-connectors.md` for full specification.
+
+### Decision Flow
+
+1. Check context.json → `metrics.data_sources.analytics_tool`
+2. Pick the connector path:
+
+| analytics_tool | Connector | Action |
+|---------------|-----------|--------|
+| `lark-sheets` + sheets_url set | Lark Sheets | Call `/lark-sheets` to read the spreadsheet; map columns to standard metric keys |
+| `amplitude` / `mixpanel` / `shenCe` / `googleAnalytics` | Not built-in | Tell user: "📊 {tool} 暂不支持自动读取。请导出 CSV 后提供，或直接粘贴本周数据。" |
+| `csv` / user provides file | CSV/Pandas | Call `/pandas-data-analysis` to process the file |
+| `manual` / null / unset | Manual input | Present a fill-in form; user pastes numbers |
+
+3. If auto-fetch succeeds → inject real values into output
+4. If auto-fetch fails → fall back to manual input; never block on data
+5. Anomaly detection: if any metric deviates >10% from previous period or trend, flag it
+
+### Data Connector Reference
+
+Full specification: `references/data-connectors.md`
+- Standard DataRequest/DataResponse format
+- Metrics Key Registry (all standard metric keys)
+- Per-workflow data requirements
+
 ## Step 2: Execute
 
 Once routed, read the target reference file (if internal) or invoke the external skill. Always:
 
-1. **Inject project context** — If `context.json` was loaded in Step 0.3, replace all generic placeholders with company-specific information (product name, metric names, competitor names, industry benchmarks, brand tone, tool references). The output should feel like it was written by someone inside the company.
-2. **Read the full reference file** before producing output — don't skim
-3. **Adapt to the user's situation** — ask clarifying questions if the request is vague
-4. **Offer to save/export** — ask if the user wants the output saved to file, sent via Lark, etc.
-5. **Suggest next steps** — after completing one workflow, suggest related workflows
+1. **Fetch data first** — execute Step 1.5 before generating output for data-dependent workflows
+2. **Inject project context** — If `context.json` was loaded in Step 0.3, replace all generic placeholders with company-specific information (product name, metric names, competitor names, industry benchmarks, brand tone, tool references). The output should feel like it was written by someone inside the company.
+3. **Read the full reference file** before producing output — don't skim
+4. **Adapt to the user's situation** — ask clarifying questions if the request is vague
+5. **Offer to save/export** — ask if the user wants the output saved to file, sent via Lark, etc.
+6. **Suggest next steps** — after completing one workflow, suggest related workflows
 
 ## Quick Reference: Common Commands
 

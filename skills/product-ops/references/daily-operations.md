@@ -28,9 +28,19 @@ If `context.json` is loaded, inject these fields into every output in this file:
 
 ## 1. Morning Check-in / 晨间检查 (10 min)
 
-Start every day with a structured check-in. Ask the user or fetch from connected tools:
+### Step A: Fetch Yesterday's Data
 
-### Check Items
+Follow the connector flow from `data-connectors.md` (§ Per-Workflow: daily-brief).
+
+1. Build DataRequest for yesterday's metrics: `dau, new_users, revenue, crash_rate` + optional `retention_d1, conversion`
+2. Try auto-fetch via connector; fall back to compact manual form:
+   ```
+   📊 昨天数据（直接粘贴或说「跳过」）：
+   DAU: __ | 新增: __ | 收入: __ | 崩溃率: __%
+   ```
+3. Run anomaly detection; flag any metric >10% deviation from 7-day moving average
+
+### Step B: Check Items
 
 1. **Core KPIs snapshot** (昨天数据):
    - DAU/MAU — any unusual change (±5%)?
@@ -65,10 +75,11 @@ Start every day with a structured check-in. Ask the user or fetch from connected
 
 ```
 📊 产品运营晨报 | Product Ops Daily Brief — {Date}
+📊 数据来源: {source_detail} | 获取时间: {fetched_at}
 
 【核心数据 Core Metrics】
-• DAU: {value} ({change}% vs yesterday)
-• 收入 Revenue: {value} ({change}%)
+• DAU: {value} ({change}% vs yesterday) {⚠️ if anomaly}
+• 收入 Revenue: {value} ({change}%) {⚠️ if anomaly}
 • 主流程转化率 Key Conversion: {value} ({change}%)
 • 崩溃率 Crash Rate: {value}
 • 功能使用 Top Feature: {feature} ({usage})
