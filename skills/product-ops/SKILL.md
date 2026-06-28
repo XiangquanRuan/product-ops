@@ -54,6 +54,8 @@ Parse the user's request. Match keywords to the appropriate reference file or ex
 ### Domain Workflows
 | User says | Route to |
 |-----------|----------|
+| 定时/自动化/loop/cron/定时任务/schedule | `references/scheduled-ops.md` |
+| 输出/保存/发送/导出/save/send/export/deliver | `references/output-actions.md` |
 | 数据源/数据连接/自动拉数据/connector/data source | `references/data-connectors.md` |
 | 数据/报表/KPI/看板/dashboard/metrics/funnel/漏斗/cohort/留存 | `references/data-reporting.md` |
 | 用户反馈/投诉/评价/建议/user feedback/review/NPS | `references/user-feedback.md` |
@@ -129,8 +131,35 @@ Once routed, read the target reference file (if internal) or invoke the external
 2. **Inject project context** — If `context.json` was loaded in Step 0.3, replace all generic placeholders with company-specific information (product name, metric names, competitor names, industry benchmarks, brand tone, tool references). The output should feel like it was written by someone inside the company.
 3. **Read the full reference file** before producing output — don't skim
 4. **Adapt to the user's situation** — ask clarifying questions if the request is vague
-5. **Offer to save/export** — ask if the user wants the output saved to file, sent via Lark, etc.
-6. **Suggest next steps** — after completing one workflow, suggest related workflows
+
+## Step 2.5: Deliver Output
+
+After generating content, route to `references/output-actions.md` and present delivery options:
+
+```
+📤 输出方式：
+1. 📄 创建飞书文档  2. 💬 发送到群聊  3. 💾 保存文件  4. 📋 复制文本  5. ⏭ 跳过
+```
+
+**Auto-delivery defaults** (if user doesn't choose):
+| Workflow | Default |
+|----------|---------|
+| Daily standup | → IM (group chat) |
+| Weekly report | → Doc + IM summary |
+| Monthly review | → Doc + .docx file |
+| Launch checklist | → Doc |
+| Meeting minutes | → Doc |
+| Stakeholder update | → .docx file |
+
+**Implementation**:
+- Doc → `/lark-doc` (or format for user's doc tool from context)
+- IM → `/lark-im` (or format as copy-paste for Slack/other)
+- File → Write directly (.md) or `/document-skills:docx` (.docx) or `/pptx-generator` (.pptx)
+- If any channel fails → fall back to Clipboard (always available)
+
+## Step 3: Suggest Next Steps
+
+After delivering output, suggest 1-2 related workflows the user might need next.
 
 ## Quick Reference: Common Commands
 
@@ -147,6 +176,7 @@ Once routed, read the target reference file (if internal) or invoke the external
 | "竞品最近有什么动作" | Load `competitive-intel.md`, scan competitors |
 | "帮我排一下需求优先级" | Route to `/pmprompt:feature-prioritization-assistant` |
 | "产品要上线了" | Load `launch-playbook.md`, run launch checklist |
+| "设置定时任务" / "自动化" | Load `scheduled-ops.md`, configure recurring tasks |
 
 ## Important Rules
 
